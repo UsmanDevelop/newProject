@@ -1,6 +1,15 @@
 pipeline {
   agent any
   stages {
+    stage('Checkout Code') {
+      steps {
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: '*/main']], // Replace 'main' with the correct branch name if different
+          userRemoteConfigs: [[url: 'https://github.com/UsmanDevelop/RegistrationPage.git']] // Replace with your repository URL
+        ])
+      }
+    }
     stage('Build and Run MERN Application') {
       steps {
         script {
