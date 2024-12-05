@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'master', url: "${env.GITHUB_REPO}"
+                git branch: 'main', url: 'https://github.com/UsmanDevelop/newProject.git'
             }
         }
         stage('Build Docker Image') {
