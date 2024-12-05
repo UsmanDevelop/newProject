@@ -9,14 +9,31 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('frontend','.')
+                    // Build Docker image using the Dockerfile in the current directory (.)
+                    docker.build('frontend', '.')
                 }
             }
         }
         stage('Run Container') {
             steps {
-                sh 'docker run -d -p 3000:3000 frontend'
+                script {
+                    // Stop and remove any existing container with the same name
+                    sh 'docker rm -f frontend || true'
+                    // Run the Docker container
+                    sh 'docker run -d --name frontend -p 3000:3000 frontend'
+                }
             }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
